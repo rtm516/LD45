@@ -21,10 +21,16 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	GameObject player;
 
+	[SerializeField]
+	Transform playerStart;
+
+	[SerializeField]
+	Transform cameraStart;
+
 	// Start is called before the first frame update
 	void Start()
     {
-		SetupViewMasks();
+		StartGame();
 	}
 
 	private void SetupViewMasks()
@@ -38,10 +44,22 @@ public class GameManager : MonoBehaviour
 		//UnlockView(2);
 	}
 
+	public void StartGame()
+	{
+		SetupViewMasks();
+
+		player.SetActive(true);
+		player.transform.position = playerStart.position;
+
+		Camera.main.transform.position = cameraStart.position;
+
+		UIManager.Instance.HideGameOver();
+	}
+
 	public void EndGame()
 	{
-		Debug.Log("End game!");
-		Application.Quit();
+		player.SetActive(false);
+		UIManager.Instance.ShowGameOver();
 	}
 
 	public void UnlockView(int viewID)

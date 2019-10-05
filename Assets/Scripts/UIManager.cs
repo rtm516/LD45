@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	#region Singleton Pattern
+	public static UIManager Instance { get; private set; }
+	void Awake()
+	{
+		if (Instance == null)
+			Instance = this;
+	}
+	#endregion
 
-    // Update is called once per frame
-    void Update()
+	[SerializeField]
+	GameObject gameOverPanel;
+
+	// Start is called before the first frame update
+	void Start()
     {
-        
+		HideGameOver();
+	}
+
+	public void ShowGameOver()
+	{
+		gameOverPanel.SetActive(true);
+	}
+
+	public void HideGameOver()
+    {
+		gameOverPanel.SetActive(false);
     }
 }
