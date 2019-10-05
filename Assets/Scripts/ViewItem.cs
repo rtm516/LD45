@@ -7,7 +7,7 @@ public class ViewItem : MonoBehaviour
 	[SerializeField]
 	int viewID = 1;
 
-	void OnCollisionEnter2D(Collision2D theCollision)
+	public void OnCollisionEnter2D(Collision2D theCollision)
 	{
 		if (theCollision.gameObject.tag == "Player")
 		{

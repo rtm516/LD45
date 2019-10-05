@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 	int layerMask;
 
 	// Start is called before the first frame update
-	void Start()
+	public void Start()
     {
 		rb = GetComponent<Rigidbody2D>();
 
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	public void Update()
 	{
 		Vector3 camPos = cameraTransform.position;
 
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	void FixedUpdate()
+	public void FixedUpdate()
 	{
 		float moveHorizontal = Input.GetAxis("Horizontal");
 
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	// Player went offscreen
-	void OnBecameInvisible()
+	public void OnBecameInvisible()
 	{
 		GameManager.Instance.EndGame();
 	}

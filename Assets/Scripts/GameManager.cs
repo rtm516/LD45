@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 	GameObject viewItems;
 
 	// Start is called before the first frame update
-	void Start()
+	public void Start()
 	{
 		SetupViewMasks();
 		player.SetActive(false);
@@ -50,9 +50,6 @@ public class GameManager : MonoBehaviour
 	{
 		SetupViewMasks();
 
-		//UnlockView(1);
-		//UnlockView(2);
-
 		player.SetActive(true);
 		SetViewItemsVisible(true);
 		player.transform.position = playerStart.position;
@@ -61,6 +58,9 @@ public class GameManager : MonoBehaviour
 
 		UIManager.Instance.HideMainMenu();
 		UIManager.Instance.HideGameOver();
+
+		MapGenerator.Instance.ClearMap();
+		MapGenerator.Instance.GenerateMap();
 	}
 
 	public void EndGame()
@@ -88,9 +88,6 @@ public class GameManager : MonoBehaviour
 	private IEnumerator FadeColour(int viewID)
 	{
 		Material mat = ViewMasks[viewID];
-		//yield return new WaitForSeconds(0.1f);
-
-		//mat.SetColor("_Color", Color.Lerp(Color.white, Color.black), Time.time);
 
 		for (float t = 0.01f; t < 2f; t+=0.1f)
 		{

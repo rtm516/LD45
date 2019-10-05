@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 	GameObject mainMenuPanel;
 
 	// Start is called before the first frame update
-	void Start()
+	public void Start()
     {
 		HideGameOver();
 	}
