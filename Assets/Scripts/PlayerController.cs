@@ -54,6 +54,11 @@ public class PlayerController : MonoBehaviour
 			camPos.y = transform.position.y;
 			cameraTransform.position = camPos;
 		}
+
+		if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+		{
+			rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+		}
 	}
 
 	void FixedUpdate()
@@ -65,38 +70,7 @@ public class PlayerController : MonoBehaviour
 		rb.velocity = movement;
 
 		isGrounded = Physics2D.OverlapArea(topLeft.position, bottomRight.position, groundLayers);
-
-		/*if (Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.down), 0.3f, layerMask))
-		{
-			isGrounded = true;
-		}
-		else
-		{
-			isGrounded = false;
-		}*/
-
-
-		if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-		{
-			rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
-		}
 	}
-
-	/*void OnCollisionEnter2D(Collision2D theCollision)
-	{
-		if (theCollision.gameObject.tag == "Ground")
-		{
-			isGrounded = true;
-		}
-	}
-
-	void OnCollisionExit2D(Collision2D theCollision)
-	{
-		if (theCollision.gameObject.tag == "Ground")
-		{
-			isGrounded = false;
-		}
-	}*/
 
 	// Player went offscreen
 	void OnBecameInvisible()
