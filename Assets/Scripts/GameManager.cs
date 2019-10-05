@@ -27,10 +27,15 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	Transform cameraStart;
 
+	[SerializeField]
+	GameObject viewItems;
+
 	// Start is called before the first frame update
 	void Start()
-    {
-		StartGame();
+	{
+		SetupViewMasks();
+		player.SetActive(false);
+		viewItems.SetActive(false);
 	}
 
 	private void SetupViewMasks()
@@ -39,31 +44,58 @@ public class GameManager : MonoBehaviour
 		{
 			mask.SetColor("_Color", Color.black);
 		}
-
-		UnlockView(1);
-		//UnlockView(2);
 	}
 
 	public void StartGame()
 	{
 		SetupViewMasks();
 
+		//UnlockView(1);
+		//UnlockView(2);
+
 		player.SetActive(true);
+		SetViewItemsVisible(true);
 		player.transform.position = playerStart.position;
 
 		Camera.main.transform.position = cameraStart.position;
 
+		UIManager.Instance.HideMainMenu();
 		UIManager.Instance.HideGameOver();
 	}
 
 	public void EndGame()
 	{
 		player.SetActive(false);
+		SetViewItemsVisible(false);
 		UIManager.Instance.ShowGameOver();
+	}
+
+	private void SetViewItemsVisible(bool visible)
+	{
+		viewItems.SetActive(visible);
+		foreach (ViewItem viewItem in viewItems.GetComponentsInChildren<ViewItem>(true))
+		{
+			viewItem.gameObject.SetActive(visible);
+		}
 	}
 
 	public void UnlockView(int viewID)
     {
-		ViewMasks[viewID - 1].SetColor("_Color", Color.white);
-    }
+		IEnumerator coroutine = FadeColour(viewID - 1);
+		StartCoroutine(coroutine);
+	}
+
+	private IEnumerator FadeColour(int viewID)
+	{
+		Material mat = ViewMasks[viewID];
+		//yield return new WaitForSeconds(0.1f);
+
+		//mat.SetColor("_Color", Color.Lerp(Color.white, Color.black), Time.time);
+
+		for (float t = 0.01f; t < 2f; t+=0.1f)
+		{
+			mat.color = Color.Lerp(Color.black, Color.white, t / 2f);
+			yield return null;
+		}
+	}
 }

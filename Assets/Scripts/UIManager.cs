@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
 	[SerializeField]
 	GameObject gameOverPanel;
 
+	[SerializeField]
+	GameObject mainMenuPanel;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -30,5 +33,10 @@ public class UIManager : MonoBehaviour
 	public void HideGameOver()
     {
 		gameOverPanel.SetActive(false);
-    }
+	}
+
+	public void HideMainMenu()
+	{
+		mainMenuPanel.SetActive(false);
+	}
 }
