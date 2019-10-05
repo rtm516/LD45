@@ -18,18 +18,33 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	Material[] ViewMasks;
 
+	[SerializeField]
+	GameObject player;
+
 	// Start is called before the first frame update
 	void Start()
     {
+		SetupViewMasks();
+	}
+
+	private void SetupViewMasks()
+	{
 		foreach (Material mask in ViewMasks)
 		{
 			mask.SetColor("_Color", Color.black);
 		}
 
 		UnlockView(1);
+		//UnlockView(2);
 	}
 
-    void UnlockView(int viewID)
+	public void EndGame()
+	{
+		Debug.Log("End game!");
+		Application.Quit();
+	}
+
+	public void UnlockView(int viewID)
     {
 		ViewMasks[viewID - 1].SetColor("_Color", Color.white);
     }

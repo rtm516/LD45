@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	float movementSpeed = 1.0f;
 
+	[SerializeField]
+	float jumpPower = 1.0f;
+
 	Rigidbody2D rb;
 
 	bool isGrounded = false;
@@ -24,9 +27,12 @@ public class PlayerController : MonoBehaviour
 	void Update()
 	{
 		Vector3 camPos = cameraTransform.position;
-		camPos.x = transform.position.x;
 
-		cameraTransform.position = camPos;
+		if (transform.position.y > camPos.y)
+		{
+			camPos.y = transform.position.y;
+			cameraTransform.position = camPos;
+		}
 	}
 
 	void FixedUpdate()
@@ -40,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
 		{
-			rb.AddForce(new Vector2(0, 5f), ForceMode2D.Impulse);
+			rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
 		}
 	}
 
@@ -58,5 +64,11 @@ public class PlayerController : MonoBehaviour
 		{
 			isGrounded = false;
 		}
+	}
+
+	// Player went offscreen
+	void OnBecameInvisible()
+	{
+		GameManager.Instance.EndGame();
 	}
 }
