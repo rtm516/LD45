@@ -10,36 +10,53 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	float movementSpeed = 1.0f;
 
+	Rigidbody2D rb;
+
+	bool isGrounded = false;
+
 	// Start is called before the first frame update
 	void Start()
     {
-        
+		rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-		float oldHeight = transform.localScale.y;
-
-		transform.localScale = transform.localScale + (new Vector3(0.1f, 0.1f, 0.1f) * Time.deltaTime);
-
-		float newHeight = transform.localScale.y;
-
-		float heightDiff = (newHeight - oldHeight) * 0.03125f;
-
-		Vector3 plyPos = transform.localPosition;
-		plyPos.y += heightDiff;
-		//transform.localPosition = plyPos;
-
+	// Update is called once per frame
+	void Update()
+	{
 		Vector3 camPos = cameraTransform.position;
 		camPos.x = transform.position.x;
 
 		cameraTransform.position = camPos;
-		
+	}
 
-		if (Input.GetAxis("Horizontal") != 0)
+	void FixedUpdate()
+	{
+		float moveHorizontal = Input.GetAxis("Horizontal");
+
+		Vector3 movement = new Vector2(moveHorizontal * movementSpeed, rb.velocity.y);
+
+		rb.velocity = movement;
+
+
+		if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
 		{
-			GetComponent<Rigidbody2D>().MovePosition(transform.position + (new Vector3(1, 0) * Input.GetAxis("Horizontal") * Time.deltaTime * movementSpeed));
+			rb.AddForce(new Vector2(0, 5f), ForceMode2D.Impulse);
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D theCollision)
+	{
+		if (theCollision.gameObject.tag == "Ground")
+		{
+			isGrounded = true;
+		}
+	}
+
+	void OnCollisionExit2D(Collision2D theCollision)
+	{
+		if (theCollision.gameObject.tag == "Ground")
+		{
+			isGrounded = false;
 		}
 	}
 }
