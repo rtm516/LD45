@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 
 		MapGenerator.Instance.ClearMap();
 		MapGenerator.Instance.GenerateMap();
-	}
+    }
 
 	public void EndGame()
 	{
