@@ -77,7 +77,7 @@ public class MapGenerator : MonoBehaviour
 		BoxFill(wallTilemap, wallTile, bottomLeft + new Vector3Int(0, -1, 0), bottomLeft + new Vector3Int(maxHoriz, -1, 0));
 	}
 
-	public void GenerateMap()
+	public void GenerateMap(bool newMap = false)
 	{
         //BoxFill(GetTilemap(3), floorTile, bottomLeft + new Vector3Int(0, 15, 0), bottomLeft + new Vector3Int(maxHoriz, 15, 0));
 
@@ -85,7 +85,12 @@ public class MapGenerator : MonoBehaviour
         int lastPlatEnd = 0;
         int lastPlatY = 0;
 
-        int maxDist = 9;
+        int maxDist = 10;
+
+        if (newMap)
+        {
+            lastY = 1;
+        }
 
 
         int y = lastY;
@@ -104,7 +109,7 @@ public class MapGenerator : MonoBehaviour
                 continue;
             }
 
-			BoxFill(GetTilemap(Random.Range(1, 2)), floorTile, bottomLeft + new Vector3Int(platformPos, y, 0), bottomLeft + new Vector3Int(platformPos + platformSize, y, 0));
+			BoxFill(GetTilemap(1), floorTile, bottomLeft + new Vector3Int(platformPos, y, 0), bottomLeft + new Vector3Int(platformPos + platformSize, y, 0));
 
             lastPlatStart = platformPos;
             lastPlatEnd = platformPos + platformSize;

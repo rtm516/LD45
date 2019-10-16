@@ -50,8 +50,10 @@ public class GameManager : MonoBehaviour
 	{
 		SetupViewMasks();
 
-		player.SetActive(true);
-		SetViewItemsVisible(true);
+        UnlockView(1);
+
+        player.SetActive(true);
+		//SetViewItemsVisible(true);
 		player.transform.position = playerStart.position;
 
 		Camera.main.transform.position = cameraStart.position;
@@ -60,13 +62,15 @@ public class GameManager : MonoBehaviour
 		UIManager.Instance.HideGameOver();
 
 		MapGenerator.Instance.ClearMap();
-		MapGenerator.Instance.GenerateMap();
+		MapGenerator.Instance.GenerateMap(true);
     }
 
 	public void EndGame()
 	{
-		player.SetActive(false);
-		SetViewItemsVisible(false);
+        LockView(1);
+
+        player.SetActive(false);
+		//SetViewItemsVisible(false);
 		UIManager.Instance.ShowGameOver();
 	}
 
@@ -83,9 +87,15 @@ public class GameManager : MonoBehaviour
     {
 		IEnumerator coroutine = FadeColour(viewID - 1);
 		StartCoroutine(coroutine);
-	}
+    }
 
-	private IEnumerator FadeColour(int viewID)
+    public void LockView(int viewID)
+    {
+        IEnumerator coroutine = FadeColourInverse(viewID - 1);
+        StartCoroutine(coroutine);
+    }
+
+    private IEnumerator FadeColour(int viewID)
 	{
 		Material mat = ViewMasks[viewID];
 
@@ -94,5 +104,16 @@ public class GameManager : MonoBehaviour
 			mat.color = Color.Lerp(Color.black, Color.white, t / 2f);
 			yield return null;
 		}
-	}
+    }
+
+    private IEnumerator FadeColourInverse(int viewID)
+    {
+        Material mat = ViewMasks[viewID];
+
+        for (float t = 0.01f; t < 2f; t += 0.1f)
+        {
+            mat.color = Color.Lerp(Color.white, Color.black, t / 2f);
+            yield return null;
+        }
+    }
 }
