@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	// Player went offscreen
+    // TODO: Fix tab out issue
 	public void OnBecameInvisible()
 	{
 		GameManager.Instance.EndGame();

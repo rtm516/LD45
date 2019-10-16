@@ -38,7 +38,16 @@ public class GameManager : MonoBehaviour
 		viewItems.SetActive(false);
 	}
 
-	private void SetupViewMasks()
+    public void Update()
+    {
+        float gridHeight = player.transform.position.y * 2.5f;
+        if ((MapGenerator.Instance.lastY - (100 * 0.2f)) < gridHeight)
+        {
+            MapGenerator.Instance.GenerateMap();
+        }
+    }
+
+    private void SetupViewMasks()
 	{
 		foreach (Material mask in ViewMasks)
 		{

@@ -51,7 +51,7 @@ public class MapGenerator : MonoBehaviour
 	[SerializeField]
 	int maxSize = 6;
 
-	int lastY = 1;
+	public int lastY = 1;
 
 	public void Start()
 	{
@@ -67,11 +67,6 @@ public class MapGenerator : MonoBehaviour
 		{
 			tilemap.ClearAllTiles();
 		}
-
-		// Left wall
-		BoxFill(wallTilemap, wallTile, bottomLeft + new Vector3Int(-1, -2, 0), bottomLeft + new Vector3Int(-1, 100, 0));
-		// Right wall
-		BoxFill(wallTilemap, wallTile, bottomLeft + new Vector3Int(maxHoriz, -2, 0), bottomLeft + new Vector3Int(maxHoriz, 100, 0));
 
 		// Bottom
 		BoxFill(wallTilemap, wallTile, bottomLeft + new Vector3Int(0, -1, 0), bottomLeft + new Vector3Int(maxHoriz, -1, 0));
@@ -91,6 +86,13 @@ public class MapGenerator : MonoBehaviour
         {
             lastY = 1;
         }
+
+
+
+        // Left wall
+        BoxFill(wallTilemap, wallTile, bottomLeft + new Vector3Int(-1, lastY - 2, 0), bottomLeft + new Vector3Int(-1, lastY + 100, 0));
+        // Right wall
+        BoxFill(wallTilemap, wallTile, bottomLeft + new Vector3Int(maxHoriz, lastY - 2, 0), bottomLeft + new Vector3Int(maxHoriz, lastY + 100, 0));
 
 
         int y = lastY;
