@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,8 +21,14 @@ public class UIManager : MonoBehaviour
 	[SerializeField]
 	GameObject mainMenuPanel;
 
-	// Start is called before the first frame update
-	public void Start()
+    [SerializeField]
+    TextMeshProUGUI scoreText;
+
+    int curScore = 0;
+    int scoreOffset = 9;
+
+    // Start is called before the first frame update
+    public void Start()
     {
 		HideGameOver();
 	}
@@ -39,4 +47,20 @@ public class UIManager : MonoBehaviour
 	{
 		mainMenuPanel.SetActive(false);
 	}
+
+    public void ClearScore()
+    {
+        UpdateScore(-scoreOffset, true);
+    }
+
+    public void UpdateScore(float playerScore, bool force = false)
+    {
+        int newScore = Mathf.RoundToInt(playerScore) + scoreOffset;
+
+        if (newScore > curScore || force)
+        {
+            scoreText.text = "Score: " + newScore;
+            curScore = newScore;
+        }
+    }
 }

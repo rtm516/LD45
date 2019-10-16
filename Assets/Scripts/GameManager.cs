@@ -41,10 +41,13 @@ public class GameManager : MonoBehaviour
     public void Update()
     {
         float gridHeight = player.transform.position.y * 2.5f;
+
         if ((MapGenerator.Instance.lastY - (100 * 0.2f)) < gridHeight)
         {
             MapGenerator.Instance.GenerateMap();
         }
+
+        UIManager.Instance.UpdateScore(gridHeight);
     }
 
     private void SetupViewMasks()
@@ -69,6 +72,7 @@ public class GameManager : MonoBehaviour
 
 		UIManager.Instance.HideMainMenu();
 		UIManager.Instance.HideGameOver();
+        UIManager.Instance.ClearScore();
 
 		MapGenerator.Instance.ClearMap();
 		MapGenerator.Instance.GenerateMap(true);
