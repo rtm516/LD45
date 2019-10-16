@@ -51,9 +51,15 @@ public class MapGenerator : MonoBehaviour
 	[SerializeField]
 	int maxSize = 6;
 
-	public int lastY = 1;
+    // Generation tracking
+    public int lastY = 1;
 
-	public void Start()
+    int lastPlatStart = 0;
+    int lastPlatEnd = 0;
+    int lastPlatY = 0;
+    int maxDist = 10;
+
+    public void Start()
 	{
 		System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
 		int curTime = (int)(System.DateTime.UtcNow - epochStart).TotalSeconds;
@@ -63,27 +69,23 @@ public class MapGenerator : MonoBehaviour
 
 	public void ClearMap()
 	{
-		foreach (Tilemap tilemap in tilemaps)
+        wallTilemap.ClearAllTiles();
+
+        foreach (Tilemap tilemap in tilemaps)
 		{
 			tilemap.ClearAllTiles();
 		}
-
-		// Bottom
-		BoxFill(wallTilemap, wallTile, bottomLeft + new Vector3Int(0, -1, 0), bottomLeft + new Vector3Int(maxHoriz, -1, 0));
 	}
 
 	public void GenerateMap(bool newMap = false)
 	{
         //BoxFill(GetTilemap(3), floorTile, bottomLeft + new Vector3Int(0, 15, 0), bottomLeft + new Vector3Int(maxHoriz, 15, 0));
 
-        int lastPlatStart = 0;
-        int lastPlatEnd = 0;
-        int lastPlatY = 0;
-
-        int maxDist = 10;
-
         if (newMap)
         {
+            // Bottom
+            BoxFill(wallTilemap, wallTile, bottomLeft + new Vector3Int(0, -1, 0), bottomLeft + new Vector3Int(maxHoriz, -1, 0));
+
             lastY = 1;
         }
 
