@@ -22,6 +22,9 @@ public class UIManager : MonoBehaviour
 	GameObject mainMenuPanel;
 
     [SerializeField]
+    GameObject gamePanel;
+
+    [SerializeField]
     TextMeshProUGUI scoreText;
 
     int curScore = 0;
@@ -46,7 +49,7 @@ public class UIManager : MonoBehaviour
 	public void HideMainMenu()
 	{
 		mainMenuPanel.SetActive(false);
-        scoreText.gameObject.SetActive(true);
+        gamePanel.SetActive(true);
     }
 
     public void ClearScore()

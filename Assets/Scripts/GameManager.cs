@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 	GameObject mask;
 
 	[SerializeField]
-	Material[] ViewMasks;
+	Material viewMask;
 
 	[SerializeField]
 	GameObject player;
@@ -27,15 +27,11 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	Transform cameraStart;
 
-	[SerializeField]
-	GameObject viewItems;
-
 	// Start is called before the first frame update
 	public void Start()
 	{
 		SetupViewMasks();
 		player.SetActive(false);
-		viewItems.SetActive(false);
 	}
 
     public void Update()
@@ -52,20 +48,16 @@ public class GameManager : MonoBehaviour
 
     private void SetupViewMasks()
 	{
-		foreach (Material mask in ViewMasks)
-		{
-			mask.SetColor("_Color", Color.black);
-		}
-	}
+        viewMask.SetColor("_Color", Color.black);
+    }
 
 	public void StartGame()
 	{
 		SetupViewMasks();
 
-        UnlockView(1);
+        UnlockView();
 
         player.SetActive(true);
-		//SetViewItemsVisible(true);
 		player.transform.position = playerStart.position;
 
 		Camera.main.transform.position = cameraStart.position;
@@ -80,52 +72,38 @@ public class GameManager : MonoBehaviour
 
 	public void EndGame()
 	{
-        LockView(1);
+        LockView();
 
         player.SetActive(false);
-		//SetViewItemsVisible(false);
 		UIManager.Instance.ShowGameOver();
 	}
 
-	private void SetViewItemsVisible(bool visible)
-	{
-		viewItems.SetActive(visible);
-		foreach (ViewItem viewItem in viewItems.GetComponentsInChildren<ViewItem>(true))
-		{
-			viewItem.gameObject.SetActive(visible);
-		}
-	}
-
-	public void UnlockView(int viewID)
+	public void UnlockView()
     {
-		IEnumerator coroutine = FadeColour(viewID - 1);
+		IEnumerator coroutine = FadeColour();
 		StartCoroutine(coroutine);
     }
 
-    public void LockView(int viewID)
+    public void LockView()
     {
-        IEnumerator coroutine = FadeColourInverse(viewID - 1);
+        IEnumerator coroutine = FadeColourInverse();
         StartCoroutine(coroutine);
     }
 
-    private IEnumerator FadeColour(int viewID)
+    private IEnumerator FadeColour()
 	{
-		Material mat = ViewMasks[viewID];
-
 		for (float t = 0.01f; t < 2f; t+=0.1f)
 		{
-			mat.color = Color.Lerp(Color.black, Color.white, t / 2f);
+            viewMask.color = Color.Lerp(Color.black, Color.white, t / 2f);
 			yield return null;
 		}
     }
 
-    private IEnumerator FadeColourInverse(int viewID)
+    private IEnumerator FadeColourInverse()
     {
-        Material mat = ViewMasks[viewID];
-
         for (float t = 0.01f; t < 2f; t += 0.1f)
         {
-            mat.color = Color.Lerp(Color.white, Color.black, t / 2f);
+            viewMask.color = Color.Lerp(Color.white, Color.black, t / 2f);
             yield return null;
         }
     }

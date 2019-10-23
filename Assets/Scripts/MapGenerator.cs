@@ -20,11 +20,14 @@ public class MapGenerator : MonoBehaviour
 
 	[SerializeField]
 	Tile floorTile;
+    
+    [SerializeField]
+    Tilemap platformTilemap;
 
-	[SerializeField]
-	Tilemap[] tilemaps;
+    [SerializeField]
+    Tilemap obstacleTilemap;
 
-	[SerializeField]
+    [SerializeField]
 	Tilemap wallTilemap;
 
 	[SerializeField]
@@ -57,7 +60,7 @@ public class MapGenerator : MonoBehaviour
     int lastPlatStart = 0;
     int lastPlatEnd = 0;
     int lastPlatY = 0;
-    int maxDist = 10;
+    int maxDist = 9;
 
     public void Start()
 	{
@@ -69,18 +72,13 @@ public class MapGenerator : MonoBehaviour
 
 	public void ClearMap()
 	{
+        platformTilemap.ClearAllTiles();
+        obstacleTilemap.ClearAllTiles();
         wallTilemap.ClearAllTiles();
-
-        foreach (Tilemap tilemap in tilemaps)
-		{
-			tilemap.ClearAllTiles();
-		}
-	}
+    }
 
 	public void GenerateMap(bool newMap = false)
 	{
-        //BoxFill(GetTilemap(3), floorTile, bottomLeft + new Vector3Int(0, 15, 0), bottomLeft + new Vector3Int(maxHoriz, 15, 0));
-
         if (newMap)
         {
             // Bottom
@@ -113,7 +111,7 @@ public class MapGenerator : MonoBehaviour
                 continue;
             }
 
-			BoxFill(GetTilemap(1), floorTile, bottomLeft + new Vector3Int(platformPos, y, 0), bottomLeft + new Vector3Int(platformPos + platformSize, y, 0));
+			BoxFill(platformTilemap, floorTile, bottomLeft + new Vector3Int(platformPos, y, 0), bottomLeft + new Vector3Int(platformPos + platformSize, y, 0));
 
             lastPlatStart = platformPos;
             lastPlatEnd = platformPos + platformSize;
@@ -123,10 +121,6 @@ public class MapGenerator : MonoBehaviour
         }
 
         lastY = y;
-	}
-	private Tilemap GetTilemap(int viewID)
-	{
-		return tilemaps[viewID - 1];
 	}
 
 	private void BoxFill(Tilemap map, TileBase tile, Vector3Int start, Vector3Int end)
